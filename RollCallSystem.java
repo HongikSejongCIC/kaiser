@@ -14,37 +14,56 @@ class Student {
 	int RoomNumber;
 	
 	
-	public void ID_Check(){
-		
-		
+	boolean ID_Check(ArrayList<Student> receive, String id){
+		int num = receive.size();
+		for(int i=0;i<num;i++){
+			if(receive.get(i).ID.equals(id))
+					return true;
+				else
+					return false;
+		}
+		return false;
 	}
 	
-	public void PW_Check(){
-		
-		
-	}
 	
 	public void Member_Join(String ID, String PassWord, String Name, String Sex, int Age, String Department, int NFC){
 		this.ID=ID; this.PassWord=PassWord; this.Name=Name; this.Sex=Sex; this.Age=Age; this.Department=Department; this.NFC=NFC;
+	
 	}
 	
-	public void Rogin(){
-		
+	boolean Rogin(ArrayList<Student> receive, String id, String pw){
+		int num = receive.size();
+		for(int i=0;i<num;i++){
+			if(receive.get(i).ID.equals(id))
+				if(receive.get(i).PassWord.equals(pw))
+					return true;
+				else
+					return false;
+		}
+		return false;
 	}
 	
 	public boolean Rogout(){
+		
 		return true;
-	}
-	
-	public void RollCall(){
 		
 	}
 	
-	public void Notice_Check(){
+	public boolean RollCall(){
+		
+		return true;
 		
 	}
 	
-	public void PostAndParcelService_Check(){
+	public boolean Notice_Check(){
+		
+		return true;
+		
+	}
+	
+	public boolean PostAndParcelService_Check(){
+		
+		return true;
 		
 	}
 	
@@ -81,8 +100,6 @@ class Manager {
 public class RollCallSystem {
 	public static void main(String[] args) {
 		
-		Student s = new Student();
-	
 		/*
 		Manager man = new Manager(     );
 		man.Notice_Registration();
@@ -94,15 +111,26 @@ public class RollCallSystem {
 		*/
 		
 		ArrayList<Student> a = new ArrayList<Student>();
-		Student st = new Student();
-		st.Member_Join("qwe","123","Sam","male",21,"coumputer",100);
-		a.add(st);
-		System.out.println(a.size());
+		Student st1 = new Student();
+		Student st2 = new Student();
+		Student st3 = new Student();
+		
+		st1.Member_Join("qwer","123","Sam","male",25,"coumputer",100);
+		st2.Member_Join("asdf","123","Emily","female",21,"design",55);
+		st3.Member_Join("zxcv","123","Peter","male",20,"graphic",83);
+		a.add(st1);
+		a.add(st2);
+		a.add(st3);
+		st1.ID_Check(a, "qwer");
+		st2.ID_Check(a, "1234");
 		for(int i=0; i<a.size(); i++){
-			System.out.print(a.get(i).Name + " ");
+			System.out.println(a.get(i).ID + " " + a.get(i).PassWord + " " + a.get(i).Name + " " + a.get(i).Sex + " " + a.get(i).Age + " " + a.get(i).Department + " " + a.get(i).NFC);
 		}
 		
-		
+	    
+	    
+	    
+	    
 	}
 
 }
