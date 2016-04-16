@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,11 +21,25 @@ import javax.swing.JTextField;
 // 메인화면 프레임
 
 class MainFrame extends JFrame {
+	ArrayList<Student> student_list = new ArrayList<Student>();
+	ArrayList<Manager> manager_list = new ArrayList<Manager>();
+	Student student1 = new Student();
+	Student student2 = new Student();
+	Student student3 = new Student();
+	Student student4 = new Student();
+	Student student5 = new Student();
+	Student student6 = new Student();
+	Student student7 = new Student();
+	Student student8 = new Student();
+	Manager manager1 = new Manager();
+	Manager manager2 = new Manager();
+
 	CardLayout cards = new CardLayout();
 	ImageIcon img;
 	JLabel image_label;
 	JButton login;
 	JButton member_join;
+	JButton member_delete;
 	JButton rollcall_registration_button;
 	JButton noticeboard_confirm_button;
 	JButton mail_confirm_button;
@@ -33,16 +48,20 @@ class MainFrame extends JFrame {
 	JButton rollcall_confirm_button;
 	JButton noticeboard_registration_button;
 	JButton mail_registration_button;
-	
+
 	JPanel system_panel, top_panel, middle_panel;
-	
+	JPanel system_panel_user, top_panel_user, middle_panel_user;
+	JPanel system_panel_manager, top_panel_manager, middle_panel_manager;
+
 	JTextField id = new JTextField(15);
 	JPasswordField pw = new JPasswordField(15);
 
 	Hongik_Thread th = new Hongik_Thread();
 	ButtonListener b_listener = new ButtonListener();
-	MemberInsert_Page member_page = new MemberInsert_Page();
-
+	//MemberInsert_Page member_page = new MemberInsert_Page();
+	
+	int remember_index = 0;
+	int remember_room = 101;
 	public MainFrame() {
 		setSize(500, 550);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,6 +72,36 @@ class MainFrame extends JFrame {
 		getContentPane().add("Main", new Main_Page(this));
 		getContentPane().add("User", new User_Panel(this));
 		getContentPane().add("Manager", new Manager_Panel(this));
+
+		student1.Member_Join("aaaa", "1234", "피카츄", "male", 21, "computer",
+				101, 1000);
+		student2.Member_Join("bbbb", "1234", "라이츄", "male", 22, "computer",
+				102, 1001);
+		student3.Member_Join("cccc", "1234", "파이리", "male", 23, "computer",
+				201, 2002);
+		student4.Member_Join("dddd", "1234", "꼬북이", "male", 24, "computer",
+				202, 2003);
+		student5.Member_Join("eeee", "1234", "버터플", "female", 25, "computer",
+				101, 1004);
+		student6.Member_Join("fffff", "1234", "야도란", "female", 26, "computer",
+				102, 1005);
+		student7.Member_Join("gggg", "1234", "피존투", "female", 27, "computer",
+				201, 2006);
+		student8.Member_Join("hhh", "1234", "또가스", "female", 28, "computer",
+				202, 2007);
+		student_list.add(student1);
+		student_list.add(student2);
+		student_list.add(student3);
+		student_list.add(student4);
+		student_list.add(student5);
+		student_list.add(student6);
+		student_list.add(student7);
+		student_list.add(student8);
+
+		manager1.Manager_Join("kwon", "1234", "kwon", "male");
+		manager2.Manager_Join("1234", "1234", "jun", "female");
+		manager_list.add(manager1);
+		manager_list.add(manager2);
 
 		setVisible(true);
 	}
@@ -122,10 +171,15 @@ class MainFrame extends JFrame {
 
 			login = new JButton("로그인");
 			member_join = new JButton("회원가입");
+			member_delete = new JButton("회원탈퇴");
+			
 			login.addActionListener(b_listener);
 			member_join.addActionListener(b_listener);
+			member_delete.addActionListener(b_listener);
 			panel5.add(login);
 			panel5.add(member_join);
+			panel5.add(member_delete);
+			
 
 			panel.add(panel1);
 			panel.add(panel2);
@@ -159,60 +213,110 @@ class MainFrame extends JFrame {
 			if (e.getSource() == login) {
 				char[] temp = pw.getPassword();
 				String passwd = new String(temp, 0, temp.length);
-				// System.out.println(passwd);
-				// System.out.println(id.getText());
-				if (id.getText().equals("whhwhh") && passwd.equals("1234")) {
-					JOptionPane.showMessageDialog(null, "유저 로그인에 성공하였습니다.");
-					change_User_Panel();
-				} else if (id.getText().equals("momo") && passwd.equals("1234")) {
-					JOptionPane.showMessageDialog(null, "관리자 로그인에 성공하였습니다.");
-					change_Manager_Panel();
-				} else
-					JOptionPane.showMessageDialog(null, "로그인에 실패하였습니다.",
-							"로그인 실패", JOptionPane.WARNING_MESSAGE);
+				for (int i = 0; i < student_list.size(); i++) {
+					if (id.getText().equals(student_list.get(i).ID)
+							&& passwd.equals(student_list.get(i).PassWord)) {
+						JOptionPane.showMessageDialog(null, "유저 로그인에 성공하였습니다.");
+						remember_index = i;
+						change_User_Panel();
+						return;
+					}
+				}
+				for (int i = 0; i < manager_list.size(); i++) {
+					if (id.getText().equals(manager_list.get(i).ID) && passwd.equals(manager_list.get(i).PassWord)) {
+						JOptionPane.showMessageDialog(null, "관리자 로그인에 성공하였습니다.");
+						remember_index = i;
+						change_Manager_Panel();
+						return;
+					}
+				}
+				JOptionPane.showMessageDialog(null, "로그인에 실패하였습니다.", "로그인 실패",
+						JOptionPane.WARNING_MESSAGE);
+			} else if(e.getSource() == member_join){
+				MemberInsert_Frame frame = new MemberInsert_Frame(student_list);
 			}
-
-			else {
-				MemberInsert_Frame frame = new MemberInsert_Frame();
+			else if(e.getSource() == member_delete){
+				int confirm_temp=0;
+				char[] temp = pw.getPassword();
+				String passwd = new String(temp, 0, temp.length);
+				for (int i = 0; i < student_list.size(); i++) {
+					if (id.getText().equals(student_list.get(i).ID) && passwd.equals(student_list.get(i).PassWord)) {
+						int result_Option = JOptionPane.showConfirmDialog(null, "정말 삭제하시겠습니까?","삭제확인",JOptionPane.YES_NO_OPTION);
+						if(result_Option == JOptionPane.CLOSED_OPTION){
+							return;
+						}
+						else if(result_Option == JOptionPane.YES_OPTION){
+							student_list.remove(i);
+							confirm_temp++;
+						}
+						else{
+							return;
+						}
+					}
+				}
+				if(confirm_temp==0)
+				JOptionPane.showMessageDialog(null, "일치하는 아이디나 비밀번호가 없습니다.", "삭제 실패",
+						JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}
 
 	class User_ButtonListener implements ActionListener {
-		int a = 10, b = 20;
+		int user_mail_count;
+		int user_parcel_count;
 
 		public void actionPerformed(ActionEvent e) {
+			user_mail_count = student_list.get(remember_index).Post;
+			user_parcel_count = student_list.get(remember_index).ParcelService;
 			if (e.getSource() == rollcall_registration_button) {
-				JOptionPane.showMessageDialog(null, "점호등록완료하였습니다.");
+				middle_panel_user.removeAll();
+				roll_registration_Panel roll_panels = new roll_registration_Panel(student_list,remember_index,remember_room);
+				middle_panel_user.add(roll_panels.roll_registration_Panel_return());
+				
 			} else if (e.getSource() == noticeboard_confirm_button) {
+				
 				JOptionPane.showMessageDialog(null, "공지사항이 없습니다.");
+				
 			} else if (e.getSource() == mail_confirm_button) {
-				JOptionPane.showMessageDialog(null, "우편은 " + a + "통, 소포는 " + b
+				JOptionPane.showMessageDialog(null, "우편은 " + user_mail_count + "통, 소포는 " + user_parcel_count
 						+ "통이 있으니 찾아가시기 바랍니다.");
 			} else if (e.getSource() == user_back) {
 				id.setText(null);
 				pw.setText(null);
+				remember_index = 0;
+				middle_panel_user.removeAll();
+				ImageIcon user_temp_img = new ImageIcon("img/campus_img.jpg");
+				JLabel user_temp_image_label = new JLabel(user_temp_img);
+				middle_panel_user.add(user_temp_image_label);
 				change_Main_Panel();
 			}
 		}
 	}
+
 	class Manager_ButtonListener implements ActionListener {
 		int a = 0, b = 123;
+
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == rollcall_confirm_button) {
 				JOptionPane.showMessageDialog(null, "점호확인하였습니다.");
 			} else if (e.getSource() == noticeboard_registration_button) {
 				JOptionPane.showMessageDialog(null, "공지사항이 없습니다.");
 			} else if (e.getSource() == mail_registration_button) {
-				JOptionPane.showMessageDialog(null, "우편은 " + a + "통, 소포는 " + b
-						+ "통이 있으니 찾아가시기 바랍니다.");
-				middle_panel.removeAll();
-				// 요부분부터 수정하면 됨
-				//middle_panel = new roll_registration_Panel();
-				//add(middle_panel);
+				
+				middle_panel_manager.removeAll();
+				manager_mail_regist manager_mail_regists = new manager_mail_regist(student_list);
+				middle_panel_manager.add(manager_mail_regists.manager_mail_regist_Panel_return());
+				
 			} else if (e.getSource() == manager_back) {
 				id.setText(null);
 				pw.setText(null);
+				remember_index = 0;
+				
+				middle_panel_manager.removeAll();
+				ImageIcon manager_temp_img = new ImageIcon("img/campus_img.jpg");
+				JLabel manager_temp_image_label = new JLabel(manager_temp_img);
+				middle_panel_manager.add(manager_temp_image_label);
+				
 				change_Main_Panel();
 			}
 		}
@@ -231,13 +335,13 @@ class MainFrame extends JFrame {
 			F = f;
 			setLayout(new BorderLayout());
 
-			system_panel = new JPanel();
-			top_panel = new JPanel();
-			middle_panel = new JPanel();
-			system_panel.setBackground(Color.WHITE);
-			top_panel.setBackground(Color.WHITE);
-			top_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
-			middle_panel.setBackground(Color.WHITE);
+			system_panel_user = new JPanel();
+			top_panel_user = new JPanel();
+			middle_panel_user = new JPanel();
+			system_panel_user.setBackground(Color.WHITE);
+			top_panel_user.setBackground(Color.WHITE);
+			top_panel_user.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
+			middle_panel_user.setBackground(Color.WHITE);
 
 			img = new ImageIcon("img/campus_img.jpg");
 			image_label = new JLabel(img);
@@ -251,16 +355,16 @@ class MainFrame extends JFrame {
 			mail_confirm_button.addActionListener(user_listener);
 			user_back.addActionListener(user_listener);
 
-			top_panel.add(rollcall_registration_button);
-			top_panel.add(noticeboard_confirm_button);
-			top_panel.add(mail_confirm_button);
-			top_panel.add(user_back);
+			top_panel_user.add(rollcall_registration_button);
+			top_panel_user.add(noticeboard_confirm_button);
+			top_panel_user.add(mail_confirm_button);
+			top_panel_user.add(user_back);
 
-			middle_panel.add(image_label);
+			middle_panel_user.add(image_label);
 
-			system_panel.add(top_panel, BorderLayout.NORTH);
-			system_panel.add(middle_panel, BorderLayout.CENTER);
-			add(system_panel);
+			system_panel_user.add(top_panel_user, BorderLayout.NORTH);
+			system_panel_user.add(middle_panel_user, BorderLayout.CENTER);
+			add(system_panel_user);
 
 			setVisible(true);
 		}
@@ -278,13 +382,13 @@ class MainFrame extends JFrame {
 			F = f;
 			setLayout(new BorderLayout());
 
-			system_panel = new JPanel();
-			top_panel = new JPanel();
-			middle_panel = new JPanel();
-			system_panel.setBackground(Color.WHITE);
-			top_panel.setBackground(Color.WHITE);
-			top_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
-			middle_panel.setBackground(Color.WHITE);
+			system_panel_manager = new JPanel();
+			top_panel_manager = new JPanel();
+			middle_panel_manager = new JPanel();
+			system_panel_manager.setBackground(Color.WHITE);
+			top_panel_manager.setBackground(Color.WHITE);
+			top_panel_manager.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
+			middle_panel_manager.setBackground(Color.WHITE);
 
 			img = new ImageIcon("img/campus_img.jpg");
 			image_label = new JLabel(img);
@@ -298,25 +402,21 @@ class MainFrame extends JFrame {
 			mail_registration_button.addActionListener(manager_listener);
 			manager_back.addActionListener(manager_listener);
 
-			top_panel.add(rollcall_confirm_button);
-			top_panel.add(noticeboard_registration_button);
-			top_panel.add(mail_registration_button);
-			top_panel.add(manager_back);
+			top_panel_manager.add(rollcall_confirm_button);
+			top_panel_manager.add(noticeboard_registration_button);
+			top_panel_manager.add(mail_registration_button);
+			top_panel_manager.add(manager_back);
 
-			middle_panel.add(image_label);
+			middle_panel_manager.add(image_label);
 
-			system_panel.add(top_panel, BorderLayout.NORTH);
-			system_panel.add(middle_panel, BorderLayout.CENTER);
-			add(system_panel);
+			system_panel_manager.add(top_panel_manager, BorderLayout.NORTH);
+			system_panel_manager.add(middle_panel_manager, BorderLayout.CENTER);
+			add(system_panel_manager);
 
 			setVisible(true);
 		}
 	}
 
-	
-	
-	
-	
 }
 
 public class project_Kaiser {
