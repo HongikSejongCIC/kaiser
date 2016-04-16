@@ -1,87 +1,223 @@
 package project_kwon;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
-import project_kwon.manager_mail_regist.manager_mail_Listener;
-
-class roll_confirm_Panel extends JPanel{
+class roll_confirm_Panel extends JPanel {
 	JPanel roll_confirm_panel;
-	
-	public roll_confirm_Panel(ArrayList<Student> student_list){
-		roll_confirm_panel = new JPanel();
-		roll_confirm_panel.setLayout(new GridLayout(2,4));
-		
+	GridBagConstraints c;
+	ArrayList<Student> student_list;
+	Manager manager_information;
+
+	public roll_confirm_Panel(ArrayList<Student> student_list,
+			Manager manager_infomation) {
 		this.student_list = student_list;
+		this.manager_information = manager_information;
+
+		setSize(300, 300);
+		GridBagLayout gridbag = new GridBagLayout();
+		roll_confirm_panel = new JPanel();
+		setLayout(gridbag);
+		c = new GridBagConstraints();
+		c.weightx = 2.0;
+		c.weighty = 2.0;
+		c.fill = GridBagConstraints.BOTH;
+
+		ImageIcon ok_img = new ImageIcon("img/Ok_icon.jpg");
+		ImageIcon wrong_img = new ImageIcon("img/Wrong_icon.jpg");
+
 		JPanel panel1 = new JPanel();
-		panel1.setLayout(new FlowLayout(10, 10, 0));
+		panel1.setPreferredSize(new Dimension(100, 300));
+		panel1.setBorder(new LineBorder(Color.black));
+		panel1.setLayout(null);
 		JPanel panel2 = new JPanel();
-		panel2.setLayout(new FlowLayout(10, 10, 0));
-		
-		JLabel name_information = new JLabel("학생 이름");
-		JLabel room_student = new JLabel("학생 방번호");
-		JLabel mail_student = new JLabel("메일의 수");
-		JLabel parcel_student = new JLabel("택배의 수");
-		name_information_field = new JTextField(10);
-		room_student_field = new JTextField(10);
-		mail_student_field = new JTextField(10);
-		parcel_student_field = new JTextField(10);
-		
-		mail_student_confirm = new JButton("학생확인");
-		mail_student_edit = new JButton("수정하기");
-		
-		mail_student_confirm.addActionListener(mml);
-		mail_student_edit.addActionListener(mml);
-		
-		panel1.add(name_information); panel1.add(name_information_field); panel1.add(room_student);
-		panel1.add(room_student_field); panel1.add(mail_student_confirm);
-		 
-		panel2.add(mail_student); panel2.add(mail_student_field); panel2.add(parcel_student);
-		panel2.add(parcel_student_field);panel2.add(mail_student_edit);
-		
-		manager_mail_regist_panel.add(panel1, BorderLayout.NORTH);
-		manager_mail_regist_panel.add(panel2, BorderLayout.CENTER);
-		
-	}
-	
-	class manager_mail_Listener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == mail_student_confirm){
-				for(int i=0;i<student_list.size();i++){
-					if(student_list.get(i).Name.equals(name_information_field.getText() ) 
-							&& student_list.get(i).room_number == Integer.parseInt(room_student_field.getText())){
-						number = i;
-						mail_student_field.setText(student_list.get(i).Post+"");
-						parcel_student_field.setText(student_list.get(i).ParcelService+"");
-						count++;
-						JOptionPane.showMessageDialog(null, "확인완료하였습니다.");
+		panel2.setPreferredSize(new Dimension(50, 150));
+		panel2.setBorder(new LineBorder(Color.black));
+		panel2.setLayout(null);
+		JPanel panel3 = new JPanel();
+		panel3.setPreferredSize(new Dimension(50, 150));
+		panel3.setBorder(new LineBorder(Color.black));
+		panel3.setLayout(null);
+		JPanel panel4 = new JPanel();
+		panel4.setPreferredSize(new Dimension(150, 150));
+		panel4.setBorder(new LineBorder(Color.black));
+		JPanel panel5 = new JPanel();
+		panel5.setPreferredSize(new Dimension(150, 150));
+		panel5.setBorder(new LineBorder(Color.black));
+		JPanel panel6 = new JPanel();
+		panel6.setPreferredSize(new Dimension(150, 150));
+		panel6.setBorder(new LineBorder(Color.black));
+		JPanel panel7 = new JPanel();
+		panel7.setPreferredSize(new Dimension(150, 150));
+		panel7.setBorder(new LineBorder(Color.black, 2, true));
+
+		// label = new JLabel("왼쪽에 글", image, JLabel.CENTER);
+		JLabel l1_1 = new JLabel("남자기숙사");
+		JLabel l1_2 = new JLabel("여자기숙사");
+		JLabel l2 = new JLabel("1층");
+		l2.setBounds(15, 50, 40, 40);
+		JLabel l3 = new JLabel("2층");
+		l3.setBounds(15, 50, 40, 40);
+
+		if (manager_infomation.Sex.equals("male")) {
+			panel1.add(l1_1);
+			l1_1.setBounds(20, 130, 80, 40);
+		} else if (manager_infomation.Sex.equals("female")) {
+			panel1.add(l1_2);
+			l1_2.setBounds(20, 130, 80, 40);
+		}
+
+		panel2.add(l2);
+		panel3.add(l3);
+		// 4 = 101 / 5 = 102 / 6 = 201 / 7 = 202
+		if (manager_infomation.Sex.equals("male"))
+			for (int i = 0; i < student_list.size(); i++) {
+				JLabel temp_label = new JLabel("");
+				// 남자일때
+				if (student_list.get(i).Sex.equals("male")) {
+					// 호수별
+					if (student_list.get(i).room_number == 101) {
+						// 점호확인여부
+						if (student_list.get(i).Rollcall_Confirm == true) {
+							temp_label = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", ok_img, SwingConstants.CENTER);
+							panel4.add(temp_label);
+						} else if (student_list.get(i).Rollcall_Confirm == false) {
+							temp_label = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", wrong_img, SwingConstants.CENTER);
+							panel4.add(temp_label);
+						}
+
+					} else if (student_list.get(i).room_number == 102) {
+						if (student_list.get(i).Rollcall_Confirm == true) {
+							temp_label = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", ok_img, SwingConstants.CENTER);
+							panel6.add(temp_label);
+						} else if (student_list.get(i).Rollcall_Confirm == false) {
+							temp_label = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", wrong_img, SwingConstants.CENTER);
+							panel6.add(temp_label);
+						}
+
+					} else if (student_list.get(i).room_number == 201) {
+						if (student_list.get(i).Rollcall_Confirm == true) {
+							temp_label = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", ok_img, SwingConstants.CENTER);
+							panel5.add(temp_label);
+						} else if (student_list.get(i).Rollcall_Confirm == false) {
+							temp_label = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", wrong_img, SwingConstants.CENTER);
+							panel5.add(temp_label);
+						}
+
+					} else if (student_list.get(i).room_number == 202) {
+						if (student_list.get(i).Rollcall_Confirm == true) {
+							temp_label = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", ok_img, SwingConstants.CENTER);
+							panel7.add(temp_label);
+						} else if (student_list.get(i).Rollcall_Confirm == false) {
+							temp_label = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", wrong_img, SwingConstants.CENTER);
+							panel7.add(temp_label);
+						}
 					}
 				}
-				if(count ==0 ){
-					JOptionPane.showMessageDialog(null, "일치하는 값이 없습니다.", "정보불일치",
-							JOptionPane.WARNING_MESSAGE);
+			}
+		
+		else if (manager_infomation.Sex.equals("female"))
+			for (int i = 0; i < student_list.size(); i++) {
+				JLabel temp_labels = new JLabel("");
+				if (student_list.get(i).Sex.equals("female")) {
+					// 호수별
+					if (student_list.get(i).room_number == 101) {
+						// 점호확인여부
+						if (student_list.get(i).Rollcall_Confirm == true) {
+							temp_labels = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", ok_img, SwingConstants.CENTER);
+							panel4.add(temp_labels);
+						} else if (student_list.get(i).Rollcall_Confirm == false) {
+							temp_labels = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", wrong_img, SwingConstants.CENTER);
+							panel4.add(temp_labels);
+						}
+
+					} else if (student_list.get(i).room_number == 102) {
+						if (student_list.get(i).Rollcall_Confirm == true) {
+							temp_labels = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", ok_img, SwingConstants.CENTER);
+							panel6.add(temp_labels);
+						} else if (student_list.get(i).Rollcall_Confirm == false) {
+							temp_labels = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", wrong_img, SwingConstants.CENTER);
+							panel6.add(temp_labels);
+						}
+
+					} else if (student_list.get(i).room_number == 201) {
+						if (student_list.get(i).Rollcall_Confirm == true) {
+							temp_labels = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", ok_img, SwingConstants.CENTER);
+							panel5.add(temp_labels);
+						} else if (student_list.get(i).Rollcall_Confirm == false) {
+							temp_labels = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", wrong_img, SwingConstants.CENTER);
+							panel5.add(temp_labels);
+						}
+
+					} else if (student_list.get(i).room_number == 202) {
+						if (student_list.get(i).Rollcall_Confirm == true) {
+							temp_labels = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", ok_img, SwingConstants.CENTER);
+							panel7.add(temp_labels);
+						} else if (student_list.get(i).Rollcall_Confirm == false) {
+							temp_labels = new JLabel(student_list.get(i).Name
+									+ "(" + student_list.get(i).room_number
+									+ ")", wrong_img, SwingConstants.CENTER);
+							panel7.add(temp_labels);
+						}
+					}
 				}
-				count =0;
 			}
-			else if(e.getSource() == mail_student_edit){
-				student_list.get(number).Post = Integer.parseInt(mail_student_field.getText());
-				student_list.get(number).ParcelService = Integer.parseInt(parcel_student_field.getText());
-				JOptionPane.showMessageDialog(null, "수정완료하였습니다.");
-			}
-		}
+
+		layout(panel1, 0, 0, 1, 2); // 시작위치x, 시작위치 y , 너비, 높이
+		layout(panel2, 1, 0, 1, 1);
+		layout(panel3, 1, 1, 1, 1);
+		layout(panel4, 2, 0, 1, 1);
+		layout(panel5, 2, 1, 1, 1);
+		layout(panel6, 3, 0, 1, 1);
+		layout(panel7, 3, 1, 1, 1);
 	}
-	
-	JPanel manager_mail_regist_Panel_return(){
-		return roll_confirm_panel;
+
+	void layout(Component obj, int x, int y, int width, int height) {
+		c.gridx = x; // 시작위치 x
+		c.gridy = y; // 시작위치 y
+		c.gridwidth = width; // 컨테이너 너비
+		c.gridheight = height; // 컨테이너 높이
+		add(obj, c);
 	}
+
 }

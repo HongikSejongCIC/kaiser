@@ -58,7 +58,7 @@ class MainFrame extends JFrame {
 	ButtonListener b_listener = new ButtonListener();
 	//MemberInsert_Page member_page = new MemberInsert_Page();
 	
-	int remember_index = 0;
+	int remember_index = 0;			// 아이디확인
 	int remember_room = 101;
 	public MainFrame() {
 		setSize(500, 550);
@@ -96,8 +96,8 @@ class MainFrame extends JFrame {
 		student_list.add(student7);
 		student_list.add(student8);
 
-		manager1.Manager_Join("kwon", "1234", "kwon", "male");
-		manager2.Manager_Join("1234", "1234", "jun", "female");
+		manager1.Manager_Join("1234", "1234", "kwon", "male");
+		manager2.Manager_Join("5678", "5678", "jun", "female");
 		manager_list.add(manager1);
 		manager_list.add(manager2);
 
@@ -288,11 +288,10 @@ class MainFrame extends JFrame {
 	}
 
 	class Manager_ButtonListener implements ActionListener {
-		int a = 0, b = 123;
-
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == rollcall_confirm_button) {
-				JOptionPane.showMessageDialog(null, "점호확인하였습니다.");
+				middle_panel_manager.removeAll();
+				middle_panel_manager.add(new roll_confirm_Panel(student_list, manager_list.get(remember_index)));
 			}  else if (e.getSource() == mail_registration_button) {
 				
 				middle_panel_manager.removeAll();

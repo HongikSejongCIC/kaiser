@@ -45,7 +45,7 @@ class roll_registration_Panel extends JPanel{
 						JOptionPane.showMessageDialog(null, "자신의 방에서 등록하시기 바랍니다!!", "방번호 불일치",
 								JOptionPane.WARNING_MESSAGE);
 					else if(student_list.get(num).NFC == Integer.parseInt(user_roll_regist_field.getText()) 
-							&& student_list.get(num).room_number == room && !student_list.get(num).Sex.equals("male"))
+							 && !student_list.get(num).Sex.equals("male"))
 						JOptionPane.showMessageDialog(null, "여기는 남자기숙사 입니다", "성별 불일치",
 								JOptionPane.WARNING_MESSAGE);
 					else
