@@ -41,12 +41,10 @@ class MainFrame extends JFrame {
 	JButton member_join;
 	JButton member_delete;
 	JButton rollcall_registration_button;
-	JButton noticeboard_confirm_button;
 	JButton mail_confirm_button;
 	JButton user_back;
 	JButton manager_back;
 	JButton rollcall_confirm_button;
-	JButton noticeboard_registration_button;
 	JButton mail_registration_button;
 
 	JPanel system_panel, top_panel, middle_panel;
@@ -273,11 +271,7 @@ class MainFrame extends JFrame {
 				roll_registration_Panel roll_panels = new roll_registration_Panel(student_list,remember_index,remember_room);
 				middle_panel_user.add(roll_panels.roll_registration_Panel_return());
 				
-			} else if (e.getSource() == noticeboard_confirm_button) {
-				
-				JOptionPane.showMessageDialog(null, "공지사항이 없습니다.");
-				
-			} else if (e.getSource() == mail_confirm_button) {
+			}  else if (e.getSource() == mail_confirm_button) {
 				JOptionPane.showMessageDialog(null, "우편은 " + user_mail_count + "통, 소포는 " + user_parcel_count
 						+ "통이 있으니 찾아가시기 바랍니다.");
 			} else if (e.getSource() == user_back) {
@@ -299,9 +293,7 @@ class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == rollcall_confirm_button) {
 				JOptionPane.showMessageDialog(null, "점호확인하였습니다.");
-			} else if (e.getSource() == noticeboard_registration_button) {
-				JOptionPane.showMessageDialog(null, "공지사항이 없습니다.");
-			} else if (e.getSource() == mail_registration_button) {
+			}  else if (e.getSource() == mail_registration_button) {
 				
 				middle_panel_manager.removeAll();
 				manager_mail_regist manager_mail_regists = new manager_mail_regist(student_list);
@@ -347,16 +339,13 @@ class MainFrame extends JFrame {
 			image_label = new JLabel(img);
 			user_back = new JButton("로그아웃");
 			rollcall_registration_button = new JButton("점호등록");
-			noticeboard_confirm_button = new JButton("공지사항 확인");
 			mail_confirm_button = new JButton("우편 및 소포 확인");
 
 			rollcall_registration_button.addActionListener(user_listener);
-			noticeboard_confirm_button.addActionListener(user_listener);
 			mail_confirm_button.addActionListener(user_listener);
 			user_back.addActionListener(user_listener);
 
 			top_panel_user.add(rollcall_registration_button);
-			top_panel_user.add(noticeboard_confirm_button);
 			top_panel_user.add(mail_confirm_button);
 			top_panel_user.add(user_back);
 
@@ -394,16 +383,13 @@ class MainFrame extends JFrame {
 			image_label = new JLabel(img);
 
 			rollcall_confirm_button = new JButton("점호확인");
-			noticeboard_registration_button = new JButton("공지사항 등록");
 			mail_registration_button = new JButton("우편 및 소포 등록");
 			manager_back = new JButton("로그아웃");
 			rollcall_confirm_button.addActionListener(manager_listener);
-			noticeboard_registration_button.addActionListener(manager_listener);
 			mail_registration_button.addActionListener(manager_listener);
 			manager_back.addActionListener(manager_listener);
 
 			top_panel_manager.add(rollcall_confirm_button);
-			top_panel_manager.add(noticeboard_registration_button);
 			top_panel_manager.add(mail_registration_button);
 			top_panel_manager.add(manager_back);
 
