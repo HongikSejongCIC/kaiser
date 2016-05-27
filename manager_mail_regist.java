@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-class manager_mail_regist extends JPanel {
+class manager_mail_regist extends JPanel {		// 관리자가 학생의 메일과 소포의 수를 바꿀때
 	JPanel manager_mail_regist_panel;
 	int number=0;
 	int count=0;
@@ -20,7 +20,6 @@ class manager_mail_regist extends JPanel {
 	JTextField parcel_student_field;  JButton mail_student_confirm;  JButton mail_student_edit;
 	ArrayList<Student> student_list;
 	manager_mail_Listener mml = new manager_mail_Listener();
-	
 	
 	public manager_mail_regist(ArrayList<Student> student_list){
 		manager_mail_regist_panel = new JPanel();
@@ -61,7 +60,8 @@ class manager_mail_regist extends JPanel {
 	class manager_mail_Listener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == mail_student_confirm){
-				for(int i=0;i<student_list.size();i++){
+				count =0;
+				for(int i=0;i<student_list.size();i++){		// 학생 이름과 방번호가 있는지 확인한다.
 					if(student_list.get(i).Name.equals(name_information_field.getText() ) 
 							&& student_list.get(i).room_number == Integer.parseInt(room_student_field.getText())){
 						number = i;
@@ -71,14 +71,13 @@ class manager_mail_regist extends JPanel {
 						JOptionPane.showMessageDialog(null, "확인완료하였습니다.");
 					}
 				}
-				if(count ==0 ){
+				if(count ==0 ){			// 학생정보가 없을 때
 					JOptionPane.showMessageDialog(null, "일치하는 값이 없습니다.", "정보불일치",
 							JOptionPane.WARNING_MESSAGE);
 				}
-				count =0;
 			}
-			else if(e.getSource() == mail_student_edit){
-				student_list.get(number).Post = Integer.parseInt(mail_student_field.getText());
+			else if(count == 1 && e.getSource() == mail_student_edit){		// 수정을 할 때
+				student_list.get(number).Post = Integer.parseInt(mail_student_field.getText());	
 				student_list.get(number).ParcelService = Integer.parseInt(parcel_student_field.getText());
 				JOptionPane.showMessageDialog(null, "수정완료하였습니다.");
 			}

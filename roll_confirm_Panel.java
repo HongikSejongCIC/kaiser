@@ -13,14 +13,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-class roll_confirm_Panel extends JPanel {
+class roll_confirm_Panel extends JPanel {		// 점호확인하기 패널
 	JPanel roll_confirm_panel;
-	GridBagConstraints c;
+	GridBagConstraints c;		// 표로 나타내기위해 사용
 	ArrayList<Student> student_list;
 	Manager manager_information;
 
 	public roll_confirm_Panel(ArrayList<Student> student_list,
-			Manager manager_infomation) {
+			Manager manager_infomation) {		// 메인함수로 부터 학생리스트와 관리자 객체를 받아온다.
 		this.student_list = student_list;
 		this.manager_information = manager_information;
 
@@ -61,7 +61,6 @@ class roll_confirm_Panel extends JPanel {
 		panel7.setPreferredSize(new Dimension(150, 150));
 		panel7.setBorder(new LineBorder(Color.black, 2, true));
 
-		// label = new JLabel("왼쪽에 글", image, JLabel.CENTER);
 		JLabel l1_1 = new JLabel("남자기숙사");
 		JLabel l1_2 = new JLabel("여자기숙사");
 		JLabel l2 = new JLabel("1층");
@@ -79,11 +78,11 @@ class roll_confirm_Panel extends JPanel {
 
 		panel2.add(l2);
 		panel3.add(l3);
-		// 4 = 101 / 5 = 102 / 6 = 201 / 7 = 202
-		if (manager_infomation.Sex.equals("male"))
+		
+		if (manager_infomation.Sex.equals("male"))		// 매니저가 남자라면 남학생만 나타난다.
 			for (int i = 0; i < student_list.size(); i++) {
 				JLabel temp_label = new JLabel("");
-				// 남자일때
+				// 학생이 남자일때
 				if (student_list.get(i).Sex.equals("male")) {
 					// 호수별
 					if (student_list.get(i).room_number == 101) {
@@ -141,7 +140,7 @@ class roll_confirm_Panel extends JPanel {
 					}
 				}
 			}
-		
+		// 관리자가 여자라면 여학생만 나타난다.
 		else if (manager_infomation.Sex.equals("female"))
 			for (int i = 0; i < student_list.size(); i++) {
 				JLabel temp_labels = new JLabel("");

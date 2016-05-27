@@ -17,13 +17,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-class roll_registration_Panel extends JPanel{
+class roll_registration_Panel extends JPanel{		// 점호등록패널
 	JPanel panels;
 	JLabel image_label;
 	ImageIcon img;
 	JButton user_roll_regist_button;
 	JTextField user_roll_regist_field;
 	JLabel user_roll_confirm;
+	// 학생 리스트와 학생번호, 시스템 방번호를 가져온다
 	public roll_registration_Panel(ArrayList<Student> student_list,int num, int room){
 		panels = new JPanel();
 		JPanel panel1 = new JPanel();JPanel panel2 = new JPanel(); JPanel panel3 = new JPanel();
@@ -35,20 +36,23 @@ class roll_registration_Panel extends JPanel{
 		
 		user_roll_regist_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//학생의 NFC, 방번호와 시스템 방번호, 성별여부를 확인한다
 					if(student_list.get(num).NFC == Integer.parseInt(user_roll_regist_field.getText()) && 
 							student_list.get(num).room_number == room && student_list.get(num).Sex.equals("male")){
 							student_list.get(num).Rollcall_Confirm = true;
 							JOptionPane.showMessageDialog(null, "점호등록완료하였습니다.");
 					}
+					// NFC와 성별은 같지만 방번호가 불일치 할때
 					else if(student_list.get(num).NFC == Integer.parseInt(user_roll_regist_field.getText()) 
 							&& student_list.get(num).room_number != room && student_list.get(num).Sex.equals("male"))
 						JOptionPane.showMessageDialog(null, "자신의 방에서 등록하시기 바랍니다!!", "방번호 불일치",
 								JOptionPane.WARNING_MESSAGE);
+					// 방번호와 NFC는 같지만 여학생이 했을때
 					else if(student_list.get(num).NFC == Integer.parseInt(user_roll_regist_field.getText()) 
 							 && !student_list.get(num).Sex.equals("male"))
 						JOptionPane.showMessageDialog(null, "여기는 남자기숙사 입니다", "성별 불일치",
 								JOptionPane.WARNING_MESSAGE);
-					else
+					else		// NFC가 불일치 할때
 						JOptionPane.showMessageDialog(null, "NFC가 일치하지 않습니다.", "NFC불일치",
 								JOptionPane.WARNING_MESSAGE);
 			}

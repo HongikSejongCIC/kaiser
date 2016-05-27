@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-class MemberInsert_Frame extends JFrame {
+class MemberInsert_Frame extends JFrame {		// 회원가입 프레임
 	JPanel p;
 	JPanel panels = new JPanel();
 	JButton id_confirm;
@@ -29,15 +29,16 @@ class MemberInsert_Frame extends JFrame {
 	JComboBox major;
 	
 	ArrayList<Student> student_list;
+	ArrayList<Manager> manager_list;
 	boolean id_check=false;
 	Member_ButtonListener member_listener = new Member_ButtonListener();
-
-	public MemberInsert_Frame(ArrayList<Student> student_list) {
+	// 메인함수로부터 학생리스트,매니저리스트를 매개변수로 받는다
+	public MemberInsert_Frame(ArrayList<Student> student_list, ArrayList<Manager> manager_list) {
 		setSize(500, 500);
 		setTitle("회원가입");
 		
 		this.student_list = student_list;
-		
+		this.manager_list = manager_list;
 		panels = new JPanel();
 		panels.setLayout(null);
 		panels.setBackground(Color.WHITE);
@@ -53,7 +54,7 @@ class MemberInsert_Frame extends JFrame {
 
 		JLabel intro = new JLabel("회원가입 메뉴");
 		intro.setFont(new Font("Serif", Font.BOLD, 20));
-		String[] major_list = { "computer", "bio", "elect", "propa", "mechine" };
+		String[] major_list = { "컴퓨터", "바이오", "전자전기", "광홍", "기계" };
 		major = new JComboBox(major_list);
 
 		ID = new JLabel("ID");	JLabel PW = new JLabel("비밀번호");	JLabel NAME = new JLabel("이름");
@@ -91,32 +92,38 @@ class MemberInsert_Frame extends JFrame {
 		panels.add(panel1);panels.add(panel2);panels.add(panel3);panels.add(panel4);panels.add(panel5);
 		panels.add(panel6);panels.add(panel7);panels.add(panel8);panels.add(panel9);panels.add(panel10);
 		
-		
-		
-		
 		add(panels);
 		setVisible(true);
 	}
 	
 	class Member_ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == id_confirm){
+				if(e.getSource() == id_confirm){			// 아이디 확인
 					int temp=0;
 					for(int i=0; i<student_list.size();i++){
-						if (id_input.getText().equals(student_list.get(i).ID)){
+						if (id_input.getText().equals(student_list.get(i).ID)){		// 아이디가 이미 있다면
 							JOptionPane.showMessageDialog(null, "중복된 아이디 입니다. 다른 아이디를 입력해주세요", 
 									"아이디 중복",	JOptionPane.WARNING_MESSAGE);
 							temp++;
 							return;
 						}
 					}
-					if(temp==0){
+					for(int i=0; i<manager_list.size();i++){
+						if (id_input.getText().equals(manager_list.get(i).ID)){		// 아이디가 이미 있다면
+							JOptionPane.showMessageDialog(null, "중복된 아이디 입니다. 다른 아이디를 입력해주세요", 
+									"아이디 중복",	JOptionPane.WARNING_MESSAGE);
+							temp++;
+							return;
+						}
+					}
+					if(temp==0){		// 아이디가 없다면
 						JOptionPane.showMessageDialog(null, "사용가능한 아이디입니다.");
 						id_check = true;
 					}
 				}
-				else if(e.getSource() == member_joins){
-					if(id_check == true && !pw_inputs.getText().equals("") && !name.getText().equals("") && !age.getText().equals("") && !room_numbers.getText().equals("")){
+				else if(e.getSource() == member_joins){		// 회원가입 버튼을 눌렀을 떄
+					if(id_check == true && !pw_inputs.getText().equals("") && !name.getText().equals("") && 
+							!age.getText().equals("") && !room_numbers.getText().equals("")){	// 아이디체크를 하고 빈곳을 체크한다.
 						Student temp_student = new Student();
 						String temp_sex; String temp_major;
 						int temp_NFC;
@@ -138,16 +145,13 @@ class MemberInsert_Frame extends JFrame {
 						dispose();
 					}
 						
-					else if(id_check == false){
+					else if(id_check == false){		// 아이디 체크를 하지 않았을 때
 						JOptionPane.showMessageDialog(null, "ID체크를 해주세요!",	"ID체크확인",	JOptionPane.WARNING_MESSAGE);
 						return;
 					}
-					else
+					else		// 빈칸이 있을 때
 						JOptionPane.showMessageDialog(null, "입력실패! 빈칸을 채워주세요",	"입력실패",	JOptionPane.WARNING_MESSAGE);
 				}
 		}
 	}
-	
-	
-	
 }

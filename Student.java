@@ -2,7 +2,7 @@ package project_kwon;
 
 import java.util.ArrayList;
 
-class Student{
+class Student{		//	학생클래스 정의
 	String ID;
 	String PassWord;
 	String Name;
@@ -16,7 +16,7 @@ class Student{
 	boolean Rollcall_Confirm;
 	
 	void Member_Join(String ID, String PassWord, String Name,
-			String Sex, int Age, String Department, int room_number, int NFC) {
+			String Sex, int Age, String Department, int room_number, int NFC) {		//회원가입 함수
 		this.ID = ID;
 		this.PassWord = PassWord;
 		this.Name = Name;
