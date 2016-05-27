@@ -274,12 +274,10 @@ class MainFrame extends JFrame {
 	
 	// 유저화면에서 나오는 버튼들에 대한 행동 정의
 	class User_ButtonListener implements ActionListener {
-		int user_mail_count;
-		int user_parcel_count;
+		//int user_mail_count;
+		//int user_parcel_count;
 
 		public void actionPerformed(ActionEvent e) {
-			user_mail_count = student_list.get(remember_index).Post;		// 메일의 갯수를 저장
-			user_parcel_count = student_list.get(remember_index).ParcelService;	// 택배의 갯수를 저장
 			if (e.getSource() == rollcall_registration_button) {		// 점호확인을 눌렀을때
 				middle_panel_user.removeAll();
 				// 아래 화면이 점호 패널로 바뀐다.
@@ -287,8 +285,8 @@ class MainFrame extends JFrame {
 				middle_panel_user.add(roll_panels.roll_registration_Panel_return());
 				
 			}  else if (e.getSource() == mail_confirm_button) {		// 메일확인버튼을 눌렀을 때
-				JOptionPane.showMessageDialog(null, "우편은 " + user_mail_count + "통, 소포는 " + user_parcel_count
-						+ "통이 있으니 찾아가시기 바랍니다.");
+				Student s = new Student();
+				s.about_mail(student_list.get(remember_index));
 			} else if (e.getSource() == user_back) {		// 로그아웃버튼을 눌렀을 때
 				id.setText(null);
 				pw.setText(null);

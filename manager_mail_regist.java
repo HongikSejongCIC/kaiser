@@ -80,6 +80,8 @@ class manager_mail_regist extends JPanel {		// 관리자가 학생의 메일과 소포의 수�
 				student_list.get(number).Post = Integer.parseInt(mail_student_field.getText());	
 				student_list.get(number).ParcelService = Integer.parseInt(parcel_student_field.getText());
 				JOptionPane.showMessageDialog(null, "수정완료하였습니다.");
+				Manager m = new Manager();
+				m.about_mail(student_list.get(number));
 			}
 		}
 	}

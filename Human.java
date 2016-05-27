@@ -8,3 +8,7 @@ abstract class Human {
 	
 	abstract void make(String ID, String PassWord, String Name, String Sex);
 }
+
+interface mail_relative{
+	public void about_mail(Student a);
+}
